@@ -4,13 +4,16 @@ import { Bottom, LogoBanner, PrimaryButton, Screen } from "../components";
 import GreyGoose from '../assets/greygoose.png'
 
 export default function ChooseInterests() {
+  function onExploreMorePressed() {
+    router.push('/locationChoice')
+  }
   return (
     <Screen>
       <LogoBanner />
       <Bottom>
         <Text style={styles.chooseInterests}>Choose your sports interests</Text>
         <InterestTable />
-        <PrimaryButton text='Next' />
+        <PrimaryButton  onPress={onNextPressed} text='Next' />
       </Bottom>
     </Screen>
   )
