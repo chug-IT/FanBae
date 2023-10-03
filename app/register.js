@@ -1,8 +1,12 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native"
 import { Bottom, LogoBanner, PrimaryButton, Screen, TextInput } from "../components"
-import { Link } from "expo-router"
+import { Link, router } from "expo-router"
 
 export default function Register() {
+  function onRegisterPress() {
+    router.push('/choose-interests')
+  } 
+
   return (
     <Screen>
       <LogoBanner />
@@ -17,7 +21,7 @@ export default function Register() {
             <TextInput placeholder='Phone' />
             <TextInput placeholder='Age' />
           </View>
-          <PrimaryButton text='Register' />
+          <PrimaryButton text='Register' onPress={onRegisterPress}/>
           <View style={styles.toLogin}>
             <Text>Already have an account? </Text>
             <Link href='/login' style={{color: '#E06547'}}>Login</Link>
