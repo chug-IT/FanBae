@@ -1,5 +1,6 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import { Bottom, LogoBanner, PrimaryButton, Screen } from "../components";
+import { StyleSheet, Text, View } from "react-native";
+import { Bottom, LogoBanner, PrimaryButton, Screen, TextInput } from "../components";
+import { Link } from "expo-router";
 
 export default function Login() { 
   return (
@@ -9,10 +10,14 @@ export default function Login() {
         <Text style={styles.welcomeBack}>Welcome Back</Text>
         <Text style={styles.loginText}>Login to your account</Text>
         <View style={styles.formContainer}>
-          <TextInput placeholder="Enter email or phone" style={styles.email} />
-          <TextInput placeholder="Enter password" style={styles.email} />
+          <TextInput placeholder='Email' />
+          <TextInput placeholder='Password' />
         </View>
-        <PrimaryButton text='Log In'/>
+        <PrimaryButton text='Log In' />
+        <View style={styles.toRegister}>
+          <Text>Don't have an account? </Text>
+          <Link href='/register' style={{color: '#E06547'}}>Create Account</Link>
+        </View>
       </Bottom>
     </Screen>
   )
@@ -27,19 +32,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop: 15,
   },
-  email: {
-    borderColor: '#8B8B8B',
-    borderRadius: 10,
-    borderWidth: 1,
-    paddingVertical: 12,
-    paddingLeft: 45,
-    width: '100%',
-  },
   formContainer: {
     gap: 27,
     marginTop: 55,
     marginBottom: 30,
     paddingHorizontal: 55,
     width: '100%',
+  },
+  toRegister: {
+    flexDirection: 'row',
+    marginBottom: 45
   }
 })

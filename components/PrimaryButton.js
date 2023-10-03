@@ -4,15 +4,15 @@ import { Pressable, StyleSheet, Text } from "react-native";
 export default function PrimaryButton({ onPress, text }) {
   return (
     <Pressable onPress={onPress}>
-          <LinearGradient
-            colors={['#D7525A', '#EE8327', '#D7525A', '#F69515']}
-            style={styles.button}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
+      <LinearGradient
+        colors={['#D7525A', '#EE8327', '#D7525A', '#F69515']}
+        style={styles.button}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
       >
         <Text style={styles.textStyle}>{text}</Text>
-          </LinearGradient>
-        </Pressable>
+      </LinearGradient>
+    </Pressable>
   )
 }
 
