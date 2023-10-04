@@ -2,15 +2,20 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import { Bottom, LogoBanner, PrimaryButton, Screen } from "../components";
 
 import GreyGoose from '../assets/greygoose.png'
+import { router } from "expo-router";
 
 export default function ChooseInterests() {
+  function onNextPress() {
+    router.push('/map')
+  }
+
   return (
     <Screen>
       <LogoBanner />
       <Bottom>
         <Text style={styles.chooseInterests}>Choose your sports interests</Text>
         <InterestTable />
-        <PrimaryButton text='Next' />
+        <PrimaryButton text='Next' onPress={onNextPress} />
       </Bottom>
     </Screen>
   )
