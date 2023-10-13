@@ -1,12 +1,17 @@
 import { StyleSheet, View } from "react-native";
 import { PrimaryButton } from "../../components";
+import { router } from "expo-router";
 
 export default function LeftMenu() { 
+  function onHostEventPress() {
+    router.push('/host-event')
+  }
+
   return (
     <View style={styles.container}>
       <PrimaryButton text='Your Tickets' />
       <PrimaryButton text='Preferences' />
-      <PrimaryButton text='Host Event' />
+      <PrimaryButton text='Host Event' onPress={onHostEventPress}/>
       <PrimaryButton text='Settings' />
       <PrimaryButton text='About Us' />
       <PrimaryButton text='Report' />
