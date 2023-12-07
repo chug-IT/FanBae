@@ -3,8 +3,8 @@ import { Bottom, LogoBanner, PrimaryButton, Screen, TextInput } from "../compone
 import { Link, router } from "expo-router";
 
 export default function Login() { 
-  function onLoginPress() {
-    router.push('/choose-interests')
+  async function onLoginPress() {
+    
   }
 
   return (

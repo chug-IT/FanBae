@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 /**
  * Default screen with red background
  */
-export default function Screen({ children }) {
+export default function Screen({ children }: { children: React.ReactNode }) {
   return (
     <View style={styles.container}>
       {children}
