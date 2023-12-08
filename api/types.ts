@@ -8,4 +8,5 @@ export type WatchParty = {
   placeId: string;
   price: number;
   startDateTime: number;
+  eventId: string;
 };

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import MapView from 'react-native-maps';
 
-import { WatchParty, getEvents } from '../../api';
+import { WatchParty, attendParty, getEvents } from '../../api';
 import Filter from '../../assets/filter.png';
 import Menu from '../../assets/menu.png';
 import { PrimaryButton, TextInput } from '../../components';
@@ -77,6 +77,20 @@ export default function Map() {
     setOverlay('event');
   };
 
+  const onJoinPressed = async () => {
+    if (!user) {
+      throw new Error('User not found');
+    }
+    setLoading(true);
+    const error = await attendParty(currentWatchParty.eventId, user.authToken);
+    setLoading(false);
+    if (error !== undefined) {
+      alert(error);
+      return;
+    }
+    setOverlay('');
+  };
+
   const currentWatchParty = watchParties[currentWatchPartyIndex];
 
   if (errorMsg) {
@@ -133,7 +147,12 @@ export default function Map() {
                   marginTop: 15,
                 }}
               >
-                <PrimaryButton text='Join' fontSize={16} disabled={loading} />
+                <PrimaryButton
+                  text='Join'
+                  fontSize={16}
+                  disabled={loading}
+                  onPress={onJoinPressed}
+                />
                 <PrimaryButton
                   text='Refresh'
                   fontSize={16}
