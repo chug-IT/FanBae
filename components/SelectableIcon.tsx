@@ -1,31 +1,40 @@
-import { useState } from "react";
-import { Image, StyleSheet, Pressable } from "react-native";
+import { useState } from 'react';
+import { Image, ImageSourcePropType, StyleSheet, Pressable } from 'react-native';
 
-import GreyGoose from '../assets/greygoose.png'
+export type SelectableIconProps = {
+  imageSource: ImageSourcePropType;
+  name: string;
+  onSelectedChanged?: (selected: boolean, name: string) => void;
+};
 
-export default function SelectableIcon({ onSelectedChanged }) {
-  const [selected, setSelected] = useState(false)
+export default function SelectableIcon({
+  imageSource,
+  name,
+  onSelectedChanged,
+}: SelectableIconProps) {
+  const [selected, setSelected] = useState(false);
 
   function onPress() {
-    setSelected(!selected)
-    onSelectedChanged && onSelectedChanged(!selected)
+    const newSelected = !selected;
+    setSelected(newSelected);
+    onSelectedChanged && onSelectedChanged(newSelected, name);
   }
 
   const containerStyle = {
     ...styles.iconContainer,
     ...(selected ? styles.iconContainerSelected : {}),
-  }
+  };
 
   const iconStyle = {
     ...styles.icon,
     ...(selected ? styles.iconSelected : {}),
-  }
+  };
 
   return (
     <Pressable style={containerStyle} onPress={onPress}>
-      <Image source={GreyGoose} style={iconStyle} />
+      <Image source={imageSource} style={iconStyle} />
     </Pressable>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -49,5 +58,5 @@ const styles = StyleSheet.create({
   iconSelected: {
     height: 70,
     width: 70,
-  }
-})
+  },
+});

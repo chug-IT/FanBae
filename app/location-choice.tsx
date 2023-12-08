@@ -1,22 +1,22 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import { Bottom, LogoBanner, PrimaryButton, Screen } from "../components";
-import { Link } from "expo-router";
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Bottom, LogoBanner, PrimaryButton, Screen } from '../components';
+import { Link } from 'expo-router';
 
-export default function chooseYourLocation() { 
+export default function chooseYourLocation() {
   return (
     <Screen>
       <LogoBanner />
       <Bottom>
         <Text style={styles.chooseYourLocation}>Choose Your Location</Text>
         <View style={styles.formContainer}>
-          <TextInput placeholder="Enter State" style={styles.region} />
-          <TextInput placeholder="Enter City" style={styles.region} />
+          <TextInput placeholder='Enter State' style={styles.region} />
+          <TextInput placeholder='Enter City' style={styles.region} />
         </View>
         <PrimaryButton text='Finish' />
         <Link href='/map'>Or use device location</Link>
       </Bottom>
     </Screen>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -42,5 +42,5 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     paddingHorizontal: 55,
     width: '100%',
-  }
-})
+  },
+});

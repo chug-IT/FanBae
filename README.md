@@ -1,11 +1,13 @@
 # FanBae
 
 ## How to Run
+
 1. Download [NodeJs](https://nodejs.org/en)
-2. Download [Expo Go](https://expo.dev/client) on your phone. If you have an iPhone you will need a Mac. 
+2. Download [Expo Go](https://expo.dev/client) on your phone. If you have an iPhone you will need a Mac.
 3. In the project directory, run `npm run ios/android` depending on your device.
 
 ## Collaboration
+
 1. All changes you make should be on your own git branch.
 2. Before making changes, do `git checkout -b name`. Ex `git checkout -b michael`.
 3. After changes are complete, `git add . && git commit -m 'description of changes'`

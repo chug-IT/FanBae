@@ -3,60 +3,63 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 
-import Menu from '../assets/menu.png'
-import Filter from '../assets/filter.png'
+import Menu from '../assets/menu.png';
+import Filter from '../assets/filter.png';
 import { PrimaryButton, TextInput } from '../components';
 import { LeftMenu, FilterMenu } from '../compositions/map';
 
 export default function Map() {
-  const [location, setLocation] = useState(null)
-  const [errorMsg, setErrorMsg] = useState(null)
-  const [overlay, setOverlay] = useState()
-  const [showEvent, setShowEvent] = useState(false)
+  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [errorMsg, setErrorMsg] = useState('');
+  const [overlay, setOverlay] = useState('');
+  const [showEvent, setShowEvent] = useState(false);
 
   useEffect(() => {
     async function initialize() {
-      const { status } = await Location.requestForegroundPermissionsAsync()
+      const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied')
-        return
+        setErrorMsg('Permission to access location was denied');
+        return;
       }
-      const newLocation = await Location.getCurrentPositionAsync()
-      setLocation(newLocation)
+      const newLocation = await Location.getCurrentPositionAsync();
+      setLocation(newLocation);
     }
 
     initialize();
-  }, [])
+  }, []);
 
   if (errorMsg) {
-    return <Text>{errorMsg}</Text>
+    return <Text>{errorMsg}</Text>;
   }
 
   if (!location) {
-    return <Text>Loading...</Text>
+    return <Text>Loading...</Text>;
   }
 
   function onOutsidePress() {
-    setOverlay(undefined)
+    setOverlay('');
   }
 
   function onLeftMenuPress() {
-    setOverlay('left menu')
+    setOverlay('left menu');
   }
 
   function onFilterMenuPress() {
-    setOverlay('filter menu')
+    setOverlay('filter menu');
   }
 
   return (
     <View style={styles.container}>
       <Pressable onPress={onOutsidePress} style={styles.outsidePress}>
-        <MapView style={styles.map} region={{
-          latitude: location.coords.latitude,
-          longitude: location.coords.longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }} />
+        <MapView
+          style={styles.map}
+          region={{
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
       </Pressable>
       <Pressable style={[styles.menuToggle, { left: 12 }]} onPress={onLeftMenuPress}>
         <Image source={Menu} style={styles.icon} />
@@ -65,22 +68,30 @@ export default function Map() {
         <Image source={Filter} style={styles.icon} />
       </Pressable>
       <View style={styles.searchContainer}>
-        <TextInput placeholder="Search" />
+        <TextInput placeholder='Search' />
       </View>
       <View style={styles.matchMe}>
-        {showEvent ? <View style={styles.currentEvent}>
-          <Text style={{fontSize: 30}}>Team1 vs. Team2</Text>
-          <Text>Date: Tomorrow, at 3</Text>
-          <Text>Host is providing:</Text>
-          <Text>Ping Pong Table</Text>
-          <View style={{flexDirection: 'row', alignSelf: 'center', gap: 10, marginTop: 15}}>
-            <PrimaryButton text='Join' fontSize={16}/>
-            <PrimaryButton text='Ignore' fontSize={16} onPress={() => setShowEvent(false)}/>
+        {showEvent ? (
+          <View style={styles.currentEvent}>
+            <Text style={{ fontSize: 30 }}>Team1 vs. Team2</Text>
+            <Text>Date: Tomorrow, at 3</Text>
+            <Text>Host is providing:</Text>
+            <Text>Ping Pong Table</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'center',
+                gap: 10,
+                marginTop: 15,
+              }}
+            >
+              <PrimaryButton text='Join' fontSize={16} />
+              <PrimaryButton text='Ignore' fontSize={16} onPress={() => setShowEvent(false)} />
+            </View>
           </View>
-        </View>
-          :
-          <PrimaryButton text='Match Me' onPress={() => setShowEvent(true)}/>
-        }
+        ) : (
+          <PrimaryButton text='Match Me' onPress={() => setShowEvent(true)} />
+        )}
       </View>
       {overlay === 'left menu' && <LeftMenu />}
       {overlay === 'filter menu' && <FilterMenu />}
@@ -131,5 +142,5 @@ const styles = StyleSheet.create({
     paddingVertical: 35,
     paddingHorizontal: 15,
     width: '100%',
-  }
+  },
 });

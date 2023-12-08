@@ -1,14 +1,10 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View } from 'react-native';
 
 /**
  * Bottom component with rounded top corners
  */
-export default function Bottom({children}) {
-  return (
-    <View style={styles.bottom}>
-      {children}
-    </View>
-  )
+export default function Bottom({ children }) {
+  return <View style={styles.bottom}>{children}</View>;
 }
 
 const styles = StyleSheet.create({

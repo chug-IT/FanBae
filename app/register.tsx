@@ -1,27 +1,19 @@
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
-import {
-  Bottom,
-  LogoBanner,
-  PrimaryButton,
-  Screen,
-  TextInput,
-} from "../components";
-import { Link, router } from "expo-router";
-import { useState } from "react";
-import { register } from "../api";
-import DateTimePicker, {
-  DateTimePickerEvent,
-} from "@react-native-community/datetimepicker";
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { Link, router } from 'expo-router';
+import { useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { register } from '../api';
+import { Bottom, LogoBanner, PrimaryButton, Screen, TextInput } from '../components';
 
 export default function Register() {
   // state hooks
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
   const [birthday, setBirthday] = useState(0);
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   // component functions
@@ -33,7 +25,7 @@ export default function Register() {
 
   const onRegisterPress = async () => {
     if (!email || !password || !name || !phone || !birthday) {
-      alert("Please fill in all fields");
+      alert('Please fill in all fields');
       return;
     }
 
@@ -53,7 +45,7 @@ export default function Register() {
     }
 
     setLoading(false);
-    router.push("/choose-interests");
+    router.push('/choose-interests');
   };
 
   return (
@@ -63,53 +55,43 @@ export default function Register() {
         <Bottom>
           <Text style={styles.register}>Register</Text>
           <Text style={styles.createAccount}>Create your new account</Text>
-          {error && <Text style={{ color: "red" }}>{error}</Text>}
+          <Text style={{ color: 'red' }}>{error}</Text>
           <View style={styles.formContainer}>
+            <TextInput placeholder='Name' onChangeText={setName} autoCapitalize='words' />
+            <TextInput placeholder='Email' onChangeText={setEmail} autoCapitalize='none' />
             <TextInput
-              placeholder="Name"
-              onChangeText={setName}
-              autoCapitalize="words"
-            />
-            <TextInput
-              placeholder="Email"
-              onChangeText={setEmail}
-              autoCapitalize="none"
-            />
-            <TextInput
-              placeholder="Password"
+              placeholder='Password'
               onChangeText={setPassword}
-              passwordRules="required: upper; required: lower; required: digit; minlength: 8"
+              passwordRules='required: upper; required: lower; required: digit; minlength: 8'
               secureTextEntry
-              autoCapitalize="none"
+              autoCapitalize='none'
             />
-            <TextInput placeholder="Phone" onChangeText={setPhone} />
+            <TextInput placeholder='Phone' onChangeText={setPhone} />
             <Pressable onPress={() => setShowDatePicker(true)}>
               <TextInput
-                placeholder="Birthday"
+                placeholder='Birthday'
                 editable={false}
                 value={
                   birthday
-                    ? new Date(birthday).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
+                    ? new Date(birthday).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
                       })
-                    : ""
+                    : ''
                 }
               />
             </Pressable>
-            {showDatePicker && (
-              <DateTimePicker value={new Date()} onChange={onDateChanged} />
-            )}
+            {showDatePicker && <DateTimePicker value={new Date()} onChange={onDateChanged} />}
           </View>
           <PrimaryButton
-            text={loading ? "Registering..." : "Register"}
+            text={loading ? 'Registering...' : 'Register'}
             onPress={onRegisterPress}
             disabled={loading}
           />
           <View style={styles.toLogin}>
             <Text>Already have an account? </Text>
-            <Link href="/login" style={{ color: "#E06547" }}>
+            <Link href='/login' style={{ color: '#E06547' }}>
               Login
             </Link>
           </View>
@@ -133,10 +115,10 @@ const styles = StyleSheet.create({
     marginTop: 55,
     marginBottom: 30,
     paddingHorizontal: 55,
-    width: "100%",
+    width: '100%',
   },
   toLogin: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 45,
   },
 });

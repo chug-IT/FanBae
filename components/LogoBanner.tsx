@@ -6,7 +6,7 @@ export default function LogoBanner() {
     <View style={styles.banner}>
       <Image source={Logo} />
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -14,4 +14,4 @@ const styles = StyleSheet.create({
     backgroundColor: '#F3F3F3',
     marginTop: 125,
   },
-})
+});

@@ -1,5 +1,5 @@
-import { LinearGradient } from "expo-linear-gradient";
-import { Pressable, PressableProps, StyleSheet, Text } from "react-native";
+import { LinearGradient } from 'expo-linear-gradient';
+import { Pressable, PressableProps, StyleSheet, Text } from 'react-native';
 
 type PrimaryButtonProps = PressableProps & {
   text: string;
@@ -13,9 +13,9 @@ export default function PrimaryButton({
 }: PrimaryButtonProps) {
   const paddingRatio = 60 / 23;
 
-  const defaultColors = ["#D7525A", "#EE8327", "#D7525A", "#F69515"];
+  const defaultColors = ['#D7525A', '#EE8327', '#D7525A', '#F69515'];
   const colors = pressableProps.disabled
-    ? defaultColors.map((color) => color + "80")
+    ? defaultColors.map((color) => color + '80')
     : defaultColors;
 
   return (
@@ -34,12 +34,12 @@ export default function PrimaryButton({
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: "center",
+    alignItems: 'center',
     borderRadius: 20,
-    justifyContent: "center",
+    justifyContent: 'center',
     paddingVertical: 10,
   },
   textStyle: {
-    color: "#F3F3F3",
+    color: '#F3F3F3',
   },
 });
