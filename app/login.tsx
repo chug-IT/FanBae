@@ -1,30 +1,38 @@
 import { Link, router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Bottom, LogoBanner, PrimaryButton, Screen, TextInput } from '../components';
 import { login } from '../api';
+import { useUserContext } from '../hooks';
 
 export default function Login() {
-  // hooks
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState(false);
 
-  // functions
+  const { user, signIn } = useUserContext();
+
+  useEffect(() => {
+    if (user) {
+      router.push('/map');
+    }
+  }, [user]);
+
   const onLoginPress = async () => {
     if (!email || !password) {
       alert('Please fill in all fields');
       return;
     }
     setLoading(true);
-    const [response, error] = await login({ email, password });
-    if (error) {
+    const { response, error } = await login({ email, password });
+    if (error !== undefined) {
       setError(error);
       setLoading(false);
       return;
     }
     setLoading(false);
+    signIn({ ...response.user, authToken: response.authToken });
     router.push('/map');
   };
 

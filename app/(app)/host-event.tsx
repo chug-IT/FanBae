@@ -7,7 +7,7 @@ import {
   SelectableIcon,
   Table,
   TextInput,
-} from '../components';
+} from '../../components';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function HostEvent() {

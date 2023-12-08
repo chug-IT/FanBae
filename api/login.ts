@@ -15,9 +15,13 @@ type LoginFormResponse = {
   };
 };
 
+type LoginResult =
+  | { response: LoginFormResponse; error: undefined }
+  | { response: undefined; error: string };
+
 const { apiUrl } = Constants.expoConfig?.extra || {};
 
-export const login = async (input: LoginFormInput): Promise<[LoginFormResponse?, string?]> => {
+export const login = async (input: LoginFormInput): Promise<LoginResult> => {
   if (!apiUrl || typeof apiUrl !== 'string') {
     throw new Error(
       'No apiUrl provided. Please check app.json and ensure it is under extra.apiUrl'
@@ -31,10 +35,10 @@ export const login = async (input: LoginFormInput): Promise<[LoginFormResponse?,
   const data = await response.json();
 
   if (response.status === 200) {
-    return [data];
+    return { response: data, error: undefined };
   } else if (response.status === 401) {
-    return [undefined, 'Invalid email or password. Please try again.'];
+    return { response: undefined, error: 'Invalid email or password' };
   }
 
-  return [undefined, `An error occurred on our end!. ${data.message}`];
+  return { response: undefined, error: `An error occurred on our end!. ${data.message}` };
 };

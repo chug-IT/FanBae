@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native';
-import { Bottom, LogoBanner, PrimaryButton, Screen } from '../components';
+import { Bottom, LogoBanner, PrimaryButton, Screen } from '../../components';
 import { Link } from 'expo-router';
 
 export default function chooseYourLocation() {

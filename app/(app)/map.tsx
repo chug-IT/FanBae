@@ -3,10 +3,10 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 
-import Menu from '../assets/menu.png';
-import Filter from '../assets/filter.png';
-import { PrimaryButton, TextInput } from '../components';
-import { LeftMenu, FilterMenu } from '../compositions/map';
+import Menu from '../../assets/menu.png';
+import Filter from '../../assets/filter.png';
+import { PrimaryButton, TextInput } from '../../components';
+import { LeftMenu, FilterMenu } from '../../compositions/map';
 
 export default function Map() {
   const [location, setLocation] = useState<Location.LocationObject | null>(null);

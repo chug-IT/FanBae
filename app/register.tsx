@@ -1,12 +1,13 @@
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { Link, router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { register } from '../api';
 import { Bottom, LogoBanner, PrimaryButton, Screen, TextInput } from '../components';
+import { useUserContext } from '../hooks';
 
 export default function Register() {
-  // state hooks
+  // state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -15,6 +16,15 @@ export default function Register() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // context
+  const { user, signIn: setUser } = useUserContext();
+
+  useEffect(() => {
+    if (user) {
+      router.push('/map');
+    }
+  }, [user]);
 
   // component functions
   const onDateChanged = (event?: DateTimePickerEvent, date?: Date) => {
@@ -30,7 +40,7 @@ export default function Register() {
     }
 
     setLoading(true);
-    const [response, error] = await register({
+    const { response, error } = await register({
       email,
       password,
       name,
@@ -38,12 +48,13 @@ export default function Register() {
       birthday,
     });
 
-    if (error) {
+    if (error !== undefined) {
       setError(error);
       setLoading(false);
       return;
     }
 
+    setUser({ ...response.user, authToken: response.authToken });
     setLoading(false);
     router.push('/choose-interests');
   };

@@ -18,11 +18,13 @@ type RegisterFormResponse = {
   };
 };
 
+type RegisterResult =
+  | { response: RegisterFormResponse; error: undefined }
+  | { response: undefined; error: string };
+
 const { apiUrl } = Constants.expoConfig?.extra || {};
 
-export const register = async (
-  input: RegisterFormInput
-): Promise<[RegisterFormResponse?, string?]> => {
+export const register = async (input: RegisterFormInput): Promise<RegisterResult> => {
   if (!apiUrl || typeof apiUrl !== 'string') {
     throw new Error(
       'No apiUrl provided. Please check app.json and ensure it is under extra.apiUrl'
@@ -36,10 +38,13 @@ export const register = async (
   const data = await response.json();
 
   if (response.status === 201) {
-    return [data];
+    return {
+      response: data,
+      error: undefined,
+    };
   } else if (response.status === 409) {
-    return [undefined, 'Email already exists. Please try logging in.'];
+    return { response: undefined, error: 'Email already exists. Please try logging in.' };
   }
 
-  return [undefined, `An error occurred on our end!. ${data.message}`];
+  return { response: undefined, error: `An error occurred on our end!. ${data.message}` };
 };
