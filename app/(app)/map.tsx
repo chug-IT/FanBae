@@ -1,5 +1,5 @@
 import MapView from 'react-native-maps';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 
@@ -33,7 +33,7 @@ export default function Map() {
   }
 
   if (!location) {
-    return <Text>Loading...</Text>;
+    return <ActivityIndicator size='large' />;
   }
 
   function onOutsidePress() {
