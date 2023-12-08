@@ -9,7 +9,8 @@ export default function LeftMenu() {
 
   return (
     <View style={styles.container}>
-      <PrimaryButton text='Your Tickets' />
+      <PrimaryButton text='Your Tickets' onPress={() => router.push('/youre-attending')} />
+      <PrimaryButton text='Your Events' onPress={() => router.push('/your-events')} />
       <PrimaryButton text='Preferences' onPress={() => router.push('/choose-interests')} />
       <PrimaryButton text='Host Event' onPress={onHostEventPress} />
       <PrimaryButton text='Settings' />

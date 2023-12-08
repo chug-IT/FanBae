@@ -15,6 +15,11 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import { hostEvent, placeAutocomplete } from '../../api';
 import { useUserContext } from '../../hooks';
 
+type GooglePlacePrediction = {
+  description: string;
+  place_id: string;
+};
+
 const debounce = (func: (...args: any[]) => any, wait: number) => {
   let timeout: ReturnType<typeof setTimeout>;
   return (...args: any[]) => {
@@ -26,13 +31,15 @@ const debounce = (func: (...args: any[]) => any, wait: number) => {
 export default function HostEvent() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
+  const [location, setLocation] = useState<GooglePlacePrediction | undefined>();
   const [amenities, setAmenities] = useState('');
   const [date, setDate] = useState(0);
   const [time, setTime] = useState(0);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
-  const [predictions, setPredictions] = useState<{ description: string; place_id: string }[]>([]);
+  const [price, setPrice] = useState('');
+
+  const [predictions, setPredictions] = useState<GooglePlacePrediction[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -51,7 +58,7 @@ export default function HostEvent() {
       setPredictions(predictions);
     }, 500);
 
-    setLocation(location);
+    setLocation({ description: location, place_id: '' });
     debouncedAutocomplete(location);
   };
 
@@ -71,6 +78,28 @@ export default function HostEvent() {
     if (!user) {
       throw new Error('User not logged in');
     }
+    if (!name) {
+      setError('Please enter an event name');
+      return;
+    }
+    if (!location) {
+      setError('Please enter a location');
+      return;
+    }
+    if (!date) {
+      setError('Please enter a date');
+      return;
+    }
+    if (!time) {
+      setError('Please enter a time');
+      return;
+    }
+
+    const priceFloat = parseFloat(price);
+    if (isNaN(priceFloat)) {
+      setError('Please enter a valid price');
+      return;
+    }
 
     const startDateTime = new Date(date);
     startDateTime.setHours(new Date(time).getHours());
@@ -80,7 +109,7 @@ export default function HostEvent() {
       {
         name,
         amenities: amenities.split(',').map((amenity) => amenity.trim()),
-        placeId: location,
+        placeId: location.place_id,
         price: 1,
         startDateTime: startDateTime.valueOf(),
       },
@@ -107,13 +136,17 @@ export default function HostEvent() {
             <TextInput placeholder='Event Name' onChangeText={setName} />
             <TextInput placeholder='Description' onChangeText={setDescription} />
             <View>
-              <TextInput placeholder='Location' value={location} onChangeText={onLocationChanged} />
+              <TextInput
+                placeholder='Location'
+                value={location?.description}
+                onChangeText={onLocationChanged}
+              />
               <View>
                 <View style={styles.predictions}>
                   {predictions.map((prediction) => (
                     <Pressable
                       onPress={() => {
-                        setLocation(prediction.description);
+                        setLocation(prediction);
                         setPredictions([]);
                       }}
                       key={prediction.description}
@@ -126,6 +159,7 @@ export default function HostEvent() {
               </View>
             </View>
             <TextInput placeholder='Amenities (Foosball table, Bar)' onChangeText={setAmenities} />
+            <TextInput placeholder='Price' onChangeText={setPrice} keyboardType='numeric' />
             <DatePicker
               date={date}
               placeHolder='Date of Event'

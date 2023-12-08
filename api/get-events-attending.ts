@@ -1,35 +1,31 @@
 import Constants from 'expo-constants';
 import { WatchParty } from './types';
 
-type GetEventsResponse =
+type GetEventsAttendingResponse =
   | { watchParties: WatchParty[]; error: undefined }
   | { watchParties: undefined; error: string };
 
 const { apiUrl } = Constants.expoConfig?.extra || {};
 
-export const getEvents = async (
-  lat: number,
-  lng: number,
+export const getEventsAttending = async (
   authToken: string
-): Promise<GetEventsResponse> => {
+): Promise<GetEventsAttendingResponse> => {
   const response = await fetch(
     `${apiUrl}/watch-party/v1?${new URLSearchParams({
-      lat: lat.toString(),
-      lng: lng.toString(),
-    }).toString()}`,
+      type: 'attendee',
+    })}`,
     {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
     }
   );
-  const data = await response.json();
+
   if (!response.ok) {
-    return {
-      watchParties: undefined,
-      error: 'There was an error on our end! Please try again later.',
-    };
+    console.log(response.status);
+    return { watchParties: undefined, error: 'An error occurred on our end! Please try again.' };
   }
 
+  const data = await response.json();
   return { watchParties: data.watchParties, error: undefined };
 };

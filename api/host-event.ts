@@ -18,6 +18,7 @@ export const hostEvent = async (
   input: HostEventInput,
   authToken: string
 ): Promise<string | undefined> => {
+  console.log('hostEvent', input);
   const response = await fetch(`${apiUrl}/watch-party/v1/create`, {
     method: 'POST',
     headers: {
@@ -28,7 +29,11 @@ export const hostEvent = async (
   });
 
   if (!response.ok) {
-    const error = await response.json();
-    return error.message;
+    console.log(response.status);
+    if (response.status === 400) {
+      const data = await response.json();
+      return data.message;
+    }
+    return 'An error occurred on our end! Please try again later.';
   }
 };

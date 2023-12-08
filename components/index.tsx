@@ -6,3 +6,4 @@ export { default as TextInput } from './TextInput';
 export { default as SelectableIcon } from './SelectableIcon';
 export { default as Table } from './Table';
 export { default as DatePicker } from './DatePicker';
+export { default as TimePicker } from './WatchPartyCard';
