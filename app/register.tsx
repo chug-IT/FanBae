@@ -3,7 +3,7 @@ import { Link, router } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { register } from '../api';
-import { Bottom, LogoBanner, PrimaryButton, Screen, TextInput } from '../components';
+import { Bottom, DatePicker, LogoBanner, PrimaryButton, Screen, TextInput } from '../components';
 import { useUserContext } from '../hooks';
 
 export default function Register() {
@@ -78,22 +78,13 @@ export default function Register() {
               autoCapitalize='none'
             />
             <TextInput placeholder='Phone' onChangeText={setPhone} />
-            <Pressable onPress={() => setShowDatePicker(true)}>
-              <TextInput
-                placeholder='Birthday'
-                editable={false}
-                value={
-                  birthday
-                    ? new Date(birthday).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                      })
-                    : ''
-                }
-              />
-            </Pressable>
-            {showDatePicker && <DateTimePicker value={new Date()} onChange={onDateChanged} />}
+            <DatePicker
+              date={birthday}
+              onDateChanged={onDateChanged}
+              placeHolder='Birthday'
+              setShowDatePicker={setShowDatePicker}
+              showDatePicker={showDatePicker}
+            />
           </View>
           <PrimaryButton
             text={loading ? 'Registering...' : 'Register'}
